@@ -1,4 +1,7 @@
-import { data, formElement, listParentElement, selectPriorityElement,listElements} from './app'
+import data from './todo-formcreate-app'
+import listParentElement from './todo-formcreate-app'
+import selectPriorityElement from './todo-formcreate-app'
+import listElements from './todo-formcreate-app'
 
 class ModifiedToDoList {
   isEdit = false

@@ -1,7 +1,19 @@
-import { data, formElement, listParentElement, selectPriorityElement,listElements} from './app'
+import data from './todo-formcreate-app'
+// let module = require('./modified-todolist-app');
+// let data = module.data;
+const formElement = document.querySelector("#form");
+const listParentElement = document.querySelector("#listParent");
+const selectPriorityElement = formElement.querySelector("#priority");
 
+const listElements = {
+  commonGroup: document.querySelector("#commonGroup"),
+  workGroup: document.querySelector("#workGroup"),
+  personalGroup: document.querySelector("#personalGroup"),
+  educationGroup: document.querySelector("#educationGroup"),
+};
+// console.log(data1)
 
-export class ToDoList{
+class ToDoList{
   constructor(listParentElement) {
     this.listParentElement = listParentElement
     this.#init()

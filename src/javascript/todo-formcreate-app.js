@@ -1,4 +1,17 @@
-import { data, formElement, listParentElement, selectPriorityElement,listElements} from './app'
+let data = [];
+// exports.data
+//export let {data1}={data1:data}
+export default data
+const formElement = document.querySelector("#form");
+const listParentElement = document.querySelector("#listParent");
+const selectPriorityElement = formElement.querySelector("#priority");
+
+const listElements = {
+  commonGroup: document.querySelector("#commonGroup"),
+  workGroup: document.querySelector("#workGroup"),
+  personalGroup: document.querySelector("#personalGroup"),
+  educationGroup: document.querySelector("#educationGroup"),
+};
 
 class ToDoformCreate {
   constructor(listParentElement) {
@@ -102,3 +115,4 @@ class ToDoformCreate {
 }
 
 new ToDoformCreate(listParentElement)
+
