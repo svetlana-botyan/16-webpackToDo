@@ -13,7 +13,7 @@ const listElements = {
   educationGroup: document.querySelector("#educationGroup"),
 };
 
-class ToDoFormCreate {
+class ToDoFormCreate{
   constructor(formElement) {
     this.formElement = formElement
     this.#init()
@@ -47,5 +47,5 @@ class ToDoFormCreate {
   }
 }
 
-new ToDoformCreate(listParentElement)
+new ToDoFormCreate(listParentElement)
 
