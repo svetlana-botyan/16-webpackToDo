@@ -1,4 +1,4 @@
-class List{
+export class List{
   constructor(data, listParentElement) {
     this.data=data
     this.listParentElement = listParentElement
