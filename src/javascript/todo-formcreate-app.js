@@ -1,7 +1,6 @@
 import { data, formElement, listParentElement, selectPriorityElement,listElements} from './app'
 
-
-export class ToDoList{
+class ToDoformCreate {
   constructor(listParentElement) {
     this.listParentElement = listParentElement
     this.#init()
@@ -10,10 +9,14 @@ export class ToDoList{
   #init() {
     this.handleChange = this.#handleChange.bind(this)
     this.handleEventNeed = this.#handleEventNeed.bind(this)
+    this.handleBeforeUnload = this.#handleBeforeUnload.bind(this)
+    this.handleDOMReady = this.#handleDOMReady.bind(this)
 
     this.listParentElement.addEventListener('change', this.handleChange)
     window.addEventListener('render:need', this.handleEventNeed)
-   }
+    window.addEventListener('beforeunload', this.handleBeforeUnload)
+    window.addEventListener('DOMContentLoaded', this.handleDOMReady)
+  }
 
   #handleChange(event) {
     const { target } = event
@@ -79,6 +82,23 @@ export class ToDoList{
     }
   }
 
+  // сохрание перед перезагрузкой
+  #handleBeforeUnload() {
+    const json = JSON.stringify(data)
+    //console.log(json)
+    localStorage.setItem('information', json)
+  }
+
+  // забираем данные из localStorage
+  #handleDOMReady() {
+    const informationFromStorage = localStorage.getItem('information')
+
+    if (informationFromStorage) {
+      data = JSON.parse(informationFromStorage)
+
+      this.render()
+    }
+  }
 }
 
-new ToDoList(listParentElement)
+new ToDoformCreate(listParentElement)
