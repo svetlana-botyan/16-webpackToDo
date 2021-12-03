@@ -11,9 +11,11 @@ const listElements = {
   personalGroup: document.querySelector("#personalGroup"),
   educationGroup: document.querySelector("#educationGroup"),
 };
-// console.log(data1)
 
-class ToDoList{
+console.log(data)
+
+
+class TodoList{
   constructor(listParentElement) {
     this.listParentElement = listParentElement
     this.#init()
@@ -22,10 +24,14 @@ class ToDoList{
   #init() {
     this.handleChange = this.#handleChange.bind(this)
     this.handleEventNeed = this.#handleEventNeed.bind(this)
+    this.handleBeforeUnload = this.#handleBeforeUnload.bind(this)
+    this.handleDOMReady = this.#handleDOMReady.bind(this)
 
     this.listParentElement.addEventListener('change', this.handleChange)
     window.addEventListener('render:need', this.handleEventNeed)
-   }
+    window.addEventListener('beforeunload', this.handleBeforeUnload)
+    window.addEventListener('DOMContentLoaded', this.handleDOMReady)
+  }
 
   #handleChange(event) {
     const { target } = event
@@ -54,17 +60,17 @@ class ToDoList{
         : `<svg class="pe-none hourglass" width="16" height="16"> <use style="color:green" href="#hourglass" /></svg>`
 
     const template = `
-        <div class="new-task col-12 align-items-start d-flex ${checkedAttr} " >
+        <div class="new-task col-12 align-items-start d-flex ${checkedAttr} " >    
           <div class="form-check" >
             <input class="form-check-input" ${checkedAttr} type="checkbox" value="" id="${id}">
             ${icon}
             <label class="form-check-label " for="${id}">
             ${textContent}
             </label>
-          </div>
+          </div> 
           <button class="btn btn-outline-success" data-role="edit" data-id="${id}" ><svg class="pe-none " width="16" height="16">
           <use href="#pencil" /></svg></button>
-
+  
           <button  class="btn  btn-outline-danger" data-role="remove" data-id="${id}" ><svg class="pe-none " width="16" height="16">
           <use href="#trash" /></svg></button>
         </div>`
@@ -91,6 +97,25 @@ class ToDoList{
     }
   }
 
+  // сохрание перед перезагрузкой
+  #handleBeforeUnload() {
+    const json = JSON.stringify(data)
+    //console.log(json)
+    localStorage.setItem('information', json)
+  }
+
+  // забираем данные из localStorage
+  #handleDOMReady() {
+    const informationFromStorage = localStorage.getItem('information')
+
+    if (informationFromStorage) {
+      data = JSON.parse(informationFromStorage)
+
+      this.render()
+    }
+  }
 }
 
-new ToDoList(listParentElement)
+
+new TodoList(listParentElement)
+
