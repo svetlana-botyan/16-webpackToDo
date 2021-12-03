@@ -1,20 +1,6 @@
-let data = [];
-// exports.data
-//export let {data1}={data1:data}
-export default data
-const formElement = document.querySelector("#form");
-const listParentElement = document.querySelector("#listParent");
-const selectPriorityElement = formElement.querySelector("#priority");
-
-const listElements = {
-  commonGroup: document.querySelector("#commonGroup"),
-  workGroup: document.querySelector("#workGroup"),
-  personalGroup: document.querySelector("#personalGroup"),
-  educationGroup: document.querySelector("#educationGroup"),
-};
-
-class ToDoFormCreate{
-  constructor(formElement) {
+class Form{
+  constructor(data,formElement) {
+    this.data = data
     this.formElement = formElement
     this.#init()
   }
@@ -39,7 +25,7 @@ class ToDoFormCreate{
       toDo[name] = value
     }
 
-    data.push(toDo)
+    this.data.push(toDo)
     this.formElement.reset()
 
     const eventRenderNeed = new Event('render:need')
@@ -47,5 +33,4 @@ class ToDoFormCreate{
   }
 }
 
-new ToDoFormCreate(listParentElement)
 

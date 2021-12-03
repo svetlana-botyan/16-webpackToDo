@@ -1,22 +1,6 @@
-import data from './todo-formcreate-app'
-// let module = require('./modified-todolist-app');
-// let data = module.data;
-const formElement = document.querySelector("#form");
-const listParentElement = document.querySelector("#listParent");
-const selectPriorityElement = formElement.querySelector("#priority");
-
-const listElements = {
-  commonGroup: document.querySelector("#commonGroup"),
-  workGroup: document.querySelector("#workGroup"),
-  personalGroup: document.querySelector("#personalGroup"),
-  educationGroup: document.querySelector("#educationGroup"),
-};
-
-console.log(data)
-
-
-class TodoList{
-  constructor(listParentElement) {
+class List{
+  constructor(data, listParentElement) {
+    this.data=data
     this.listParentElement = listParentElement
     this.#init()
   }
@@ -39,7 +23,7 @@ class TodoList{
 
     if (type !== 'checkbox') return
 
-    data.forEach((item) => {
+    this.data.forEach((item) => {
       if (item.id == id) {
         item.isChecked = checked
       }
@@ -60,17 +44,17 @@ class TodoList{
         : `<svg class="pe-none hourglass" width="16" height="16"> <use style="color:green" href="#hourglass" /></svg>`
 
     const template = `
-        <div class="new-task col-12 align-items-start d-flex ${checkedAttr} " >    
+        <div class="new-task col-12 align-items-start d-flex ${checkedAttr} " >
           <div class="form-check" >
             <input class="form-check-input" ${checkedAttr} type="checkbox" value="" id="${id}">
             ${icon}
             <label class="form-check-label " for="${id}">
             ${textContent}
             </label>
-          </div> 
+          </div>
           <button class="btn btn-outline-success" data-role="edit" data-id="${id}" ><svg class="pe-none " width="16" height="16">
           <use href="#pencil" /></svg></button>
-  
+
           <button  class="btn  btn-outline-danger" data-role="remove" data-id="${id}" ><svg class="pe-none " width="16" height="16">
           <use href="#trash" /></svg></button>
         </div>`
@@ -81,7 +65,7 @@ class TodoList{
   render() {
     this.clearLists()
 
-    data.forEach((toDo) => {
+    this.data.forEach((toDo) => {
       const { group } = toDo
       const listElement = listElements[group]
 
@@ -99,7 +83,7 @@ class TodoList{
 
   // сохрание перед перезагрузкой
   #handleBeforeUnload() {
-    const json = JSON.stringify(data)
+    const json = JSON.stringify(this.data)
     //console.log(json)
     localStorage.setItem('information', json)
   }
@@ -109,13 +93,11 @@ class TodoList{
     const informationFromStorage = localStorage.getItem('information')
 
     if (informationFromStorage) {
-      data = JSON.parse(informationFromStorage)
+      this.data = JSON.parse(informationFromStorage)
 
       this.render()
     }
   }
 }
 
-
-new TodoList(listParentElement)
 
